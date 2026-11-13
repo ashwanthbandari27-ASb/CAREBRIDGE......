@@ -1,0 +1,30 @@
+{
+  "name": "carebridge-healthcare-management-system",
+  "version": "1.0.0",
+  "description": "CAREBRIDGE – AI-Powered Smart Healthcare Management System",
+  "main": "backend/server.js",
+  "scripts": {
+    "start": "node backend/server.js",
+    "server": "node backend/server.js",
+    "backend": "cd backend && node server.js",
+    "frontend": "cd frontend && npm run dev",
+    "build": "cd frontend && npm run build",
+    "seed": "cd backend && node -e \"require('./config/db').connectDB().then(() => process.exit(0))\""
+  },
+  "keywords": [
+    "carebridge",
+    "healthcare",
+    "hospital-management",
+    "electronic-medical-records",
+    "ehr",
+    "emr",
+    "telemedicine",
+    "react",
+    "tailwind",
+    "express",
+    "nodejs",
+    "mongodb"
+  ],
+  "author": "CareBridge Healthcare Solutions",
+  "license": "MIT"
+}
