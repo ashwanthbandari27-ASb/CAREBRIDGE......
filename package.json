@@ -1,30 +1,27 @@
 {
-  "name": "carebridge-healthcare-management-system",
+  "name": "carebridge-frontend",
+  "private": true,
   "version": "1.0.0",
-  "description": "CAREBRIDGE – AI-Powered Smart Healthcare Management System",
-  "main": "backend/server.js",
+  "type": "module",
   "scripts": {
-    "start": "node backend/server.js",
-    "server": "node backend/server.js",
-    "backend": "cd backend && node server.js",
-    "frontend": "cd frontend && npm run dev",
-    "build": "cd frontend && npm run build",
-    "seed": "cd backend && node -e \"require('./config/db').connectDB().then(() => process.exit(0))\""
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
   },
-  "keywords": [
-    "carebridge",
-    "healthcare",
-    "hospital-management",
-    "electronic-medical-records",
-    "ehr",
-    "emr",
-    "telemedicine",
-    "react",
-    "tailwind",
-    "express",
-    "nodejs",
-    "mongodb"
-  ],
-  "author": "CareBridge Healthcare Solutions",
-  "license": "MIT"
+  "dependencies": {
+    "@rollup/wasm-node": "^4.68.3",
+    "lucide-react": "^1.16.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "recharts": "^2.13.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.3.12",
+    "@types/react-dom": "^18.3.1",
+    "@vitejs/plugin-react": "^4.3.3",
+    "autoprefixer": "^10.4.20",
+    "postcss": "^8.4.47",
+    "tailwindcss": "^3.4.14",
+    "vite": "^5.4.10"
+  }
 }

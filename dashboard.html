@@ -3,11 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CAREBRIDGE – Smart Healthcare Management System</title>
+  <title>CareBridge Hospital - Smart Dashboard (HTML/CSS/JS)</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="css/style.css">
   <script>
     tailwind.config = {
       theme: {
@@ -22,536 +23,587 @@
       }
     }
   </script>
-  <style>
-    @keyframes pulse-emergency {
-      0%, 100% { opacity: 1; transform: scale(1); }
-      50% { opacity: 0.85; transform: scale(1.02); }
-    }
-    .animate-emergency { animation: pulse-emergency 2s infinite; }
-  </style>
 </head>
 <body class="bg-slate-50 text-slate-800 antialiased font-sans min-h-screen flex flex-col">
 
-  <!-- Top Announcement: Backend Server Link -->
-  <div class="bg-gradient-to-r from-brand-700 via-brand-600 to-teal-600 text-white text-xs py-2 px-4 text-center flex items-center justify-center gap-3">
+  <!-- Top Announcement Bar -->
+  <div class="bg-gradient-to-r from-sky-800 via-sky-600 to-teal-600 text-white text-xs py-2 px-4 text-center flex items-center justify-center gap-3">
     <span class="inline-block w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
-    <span class="font-medium">CareBridge Healthcare Server running on <strong>http://localhost:5000</strong></span>
-    <a href="http://localhost:5000" class="underline font-bold hover:text-emerald-200">Open Live Server Mode ➔</a>
+    <span class="font-medium">CareBridge Standalone HTML/CSS/JS Frontend &bull; Node Server: <strong>http://localhost:5000</strong> &bull; Django Server: <strong>http://localhost:8000</strong></span>
+    <a href="../dashboard.html" class="underline font-bold hover:text-emerald-200">Open Root Dashboard ➔</a>
   </div>
 
-  <!-- Top Navigation -->
+  <!-- Header -->
   <header class="bg-white border-b border-slate-200 sticky top-0 z-40 shadow-sm">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
       <div class="flex items-center gap-3 cursor-pointer" onclick="switchTab('dashboard')">
-        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-brand-600 to-teal-500 text-white flex items-center justify-center font-black text-lg shadow-md shadow-brand-500/20">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-sky-600 to-teal-500 text-white flex items-center justify-center font-black text-lg shadow-md shadow-sky-500/20">
           CB
         </div>
         <div>
           <div class="flex items-center gap-1.5">
-            <span class="font-extrabold text-xl tracking-tight text-slate-900">CARE<span class="text-brand-600">BRIDGE</span></span>
-            <span class="text-[10px] font-bold px-1.5 py-0.2 bg-teal-50 text-teal-700 border border-teal-200 rounded">AI</span>
+            <span class="font-extrabold text-xl tracking-tight text-slate-900">CARE<span class="text-sky-600">BRIDGE</span></span>
+            <span class="text-[10px] font-bold px-1.5 py-0.2 bg-teal-50 text-teal-700 border border-teal-200 rounded">HTML/JS</span>
           </div>
-          <p className="text-[10px] font-semibold text-slate-400 uppercase -mt-1 tracking-wider">Smart Healthcare System</p>
+          <p class="text-[10px] font-semibold text-slate-400 uppercase -mt-1 tracking-wider">Smart Healthcare System</p>
         </div>
       </div>
 
-      <!-- Center Search -->
+      <!-- Quick Search -->
       <div class="hidden md:flex flex-1 max-w-md mx-4">
-        <input
-          type="text"
-          id="globalSearch"
+        <input 
+          type="text" 
+          placeholder="Search patients, doctors, appointments, pharmacy..." 
           onkeyup="filterGlobal(this.value)"
-          placeholder="Search patients, doctors, prescriptions, emergency..."
-          class="w-full px-4 py-2 text-xs bg-slate-100 focus:bg-white border border-transparent focus:border-brand-500 rounded-xl focus:outline-none"
+          class="w-full px-4 py-2 text-sm bg-slate-100 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-sky-500 focus:bg-white transition"
         />
       </div>
 
       <!-- User Profile -->
       <div class="flex items-center gap-3">
-        <div class="p-2 rounded-xl bg-slate-100 text-slate-600 relative cursor-pointer" onclick="alert('System Status: All 11 Clinical Hospital Modules Active.')">
-          🔔 <span class="absolute top-1 right-1 w-2 h-2 rounded-full bg-rose-500"></span>
+        <div class="text-right hidden sm:block">
+          <p class="text-xs font-bold text-slate-800">Admin User</p>
+          <p class="text-[11px] text-emerald-600 font-semibold">● Active Session</p>
         </div>
-        <div class="flex items-center gap-2">
-          <img src="https://images.unsplash.com/photo-1622253692010-333f2da6031d?w=100" class="w-8 h-8 rounded-xl object-cover ring-2 ring-brand-500/20" alt="Admin">
-          <div class="text-left hidden sm:block">
-            <p class="text-xs font-bold text-slate-900">Dr. Arthur Vance</p>
-            <span class="text-[10px] px-1.5 py-0.2 rounded bg-purple-100 text-purple-700 font-bold">Administrator</span>
-          </div>
+        <div class="w-9 h-9 rounded-full bg-slate-200 text-slate-700 flex items-center justify-center font-bold text-sm border border-slate-300">
+          AD
         </div>
+        <a href="index.html" class="text-xs font-semibold text-slate-500 hover:text-rose-600 ml-2">Logout</a>
       </div>
     </div>
   </header>
 
   <!-- Main Container -->
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full flex-1 flex py-6 gap-6">
-    <!-- Sidebar -->
-    <aside class="w-64 shrink-0 hidden lg:block bg-white rounded-2xl border border-slate-200 shadow-sm p-4 h-[calc(100vh-7rem)] sticky top-24">
-      <p class="text-[11px] font-bold text-slate-400 uppercase tracking-wider px-3 mb-2">Main Navigation</p>
-      <nav class="space-y-1 text-xs font-semibold" id="sidebarNav">
-        <button onclick="switchTab('dashboard')" class="nav-btn w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl bg-brand-500 text-white font-bold" data-tab="dashboard">
-          <span>1. Dashboard</span>
-          <span>⚡</span>
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 w-full flex-1 flex flex-col md:flex-row gap-6">
+    
+    <!-- Sidebar Navigation -->
+    <aside class="w-full md:w-60 shrink-0 space-y-1">
+      <nav class="bg-white p-3 rounded-2xl border border-slate-200 shadow-sm space-y-1">
+        <button onclick="switchTab('dashboard')" data-tab="dashboard" class="nav-link w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-bold bg-brand-500 text-white transition text-left">
+          <span>📊</span> Dashboard
         </button>
-        <button onclick="switchTab('patients')" class="nav-btn w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-slate-600 hover:bg-slate-50" data-tab="patients">
-          <span>2. Patients</span>
-          <span class="text-slate-400">6</span>
+        <button onclick="switchTab('patients')" data-tab="patients" class="nav-link w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-slate-600 hover:bg-slate-50 transition text-left">
+          <span>👥</span> Patients
         </button>
-        <button onclick="switchTab('doctors')" class="nav-btn w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-slate-600 hover:bg-slate-50" data-tab="doctors">
-          <span>3. Doctors</span>
-          <span class="text-slate-400">5</span>
+        <button onclick="switchTab('doctors')" data-tab="doctors" class="nav-link w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-slate-600 hover:bg-slate-50 transition text-left">
+          <span>👨‍⚕️</span> Doctors
         </button>
-        <button onclick="switchTab('appointments')" class="nav-btn w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-slate-600 hover:bg-slate-50" data-tab="appointments">
-          <span>4. Appointments</span>
-          <span class="text-slate-400">7</span>
+        <button onclick="switchTab('appointments')" data-tab="appointments" class="nav-link w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-slate-600 hover:bg-slate-50 transition text-left">
+          <span>📅</span> Appointments
         </button>
-        <button onclick="switchTab('medical-records')" class="nav-btn w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-slate-600 hover:bg-slate-50" data-tab="medical-records">
-          <span>5. Medical Records</span>
-          <span class="text-slate-400">3</span>
+        <button onclick="switchTab('emergency')" data-tab="emergency" class="nav-link w-full flex items-center justify-between px-3 py-2.5 rounded-xl text-sm font-medium text-slate-600 hover:bg-slate-50 transition text-left">
+          <span class="flex items-center gap-3"><span>🚨</span> Emergency</span>
+          <span class="bg-rose-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full animate-pulse">4</span>
         </button>
-        <button onclick="switchTab('prescriptions')" class="nav-btn w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-slate-600 hover:bg-slate-50" data-tab="prescriptions">
-          <span>6. Prescriptions</span>
-          <span class="text-slate-400">3</span>
+        <button onclick="switchTab('pharmacy')" data-tab="pharmacy" class="nav-link w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-slate-600 hover:bg-slate-50 transition text-left">
+          <span>💊</span> Pharmacy
         </button>
-        <button onclick="switchTab('pharmacy')" class="nav-btn w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-slate-600 hover:bg-slate-50" data-tab="pharmacy">
-          <span>7. Pharmacy</span>
-          <span class="text-slate-400">8</span>
+        <button onclick="switchTab('prescriptions')" data-tab="prescriptions" class="nav-link w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-slate-600 hover:bg-slate-50 transition text-left">
+          <span>📋</span> Prescriptions
         </button>
-        <button onclick="switchTab('laboratory')" class="nav-btn w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-slate-600 hover:bg-slate-50" data-tab="laboratory">
-          <span>8. Laboratory Reports</span>
-          <span class="text-slate-400">4</span>
-        </button>
-        <button onclick="switchTab('billing')" class="nav-btn w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-slate-600 hover:bg-slate-50" data-tab="billing">
-          <span>9. Billing & Payments</span>
-          <span class="text-slate-400">3</span>
-        </button>
-        <button onclick="switchTab('emergency')" class="nav-btn w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-slate-600 hover:bg-slate-50" data-tab="emergency">
-          <span>10. Emergency Services</span>
-          <span class="text-rose-500 font-bold">4 Active</span>
-        </button>
-        <button onclick="switchTab('analytics')" class="nav-btn w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-slate-600 hover:bg-slate-50" data-tab="analytics">
-          <span>11. Reports & Analytics</span>
-          <span class="text-slate-400">📈</span>
-        </button>
-        <button onclick="switchTab('settings')" class="nav-btn w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-slate-600 hover:bg-slate-50" data-tab="settings">
-          <span>12. Settings</span>
-          <span class="text-slate-400">⚙️</span>
+        <button onclick="switchTab('billing')" data-tab="billing" class="nav-link w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-slate-600 hover:bg-slate-50 transition text-left">
+          <span>💳</span> Invoices & Billing
         </button>
       </nav>
-      <div class="pt-4 border-t border-slate-100 mt-4">
-        <button onclick="alert('You are securely logged in as Administrator.')" class="w-full flex items-center justify-between px-3.5 py-2 rounded-xl text-rose-600 hover:bg-rose-50 text-xs font-bold">
-          <span>13. Logout</span>
-          <span>🚪</span>
-        </button>
+
+      <!-- System Status Widget -->
+      <div class="bg-gradient-to-br from-slate-900 to-slate-800 text-white p-4 rounded-2xl shadow-sm text-xs space-y-3 mt-4">
+        <p class="font-bold text-sky-400 uppercase tracking-wider text-[10px]">Stack Architecture</p>
+        <div class="space-y-1.5 text-slate-300">
+          <p class="flex justify-between"><span>Frontend:</span> <span class="text-white font-semibold">HTML5 / Tailwind / JS</span></p>
+          <p class="flex justify-between"><span>Node API:</span> <span class="text-emerald-400 font-semibold">Port 5000</span></p>
+          <p class="flex justify-between"><span>Django API:</span> <span class="text-sky-300 font-semibold">Port 8000</span></p>
+          <p class="flex justify-between"><span>Databases:</span> <span class="text-amber-300 font-semibold">SQLite & MySQL</span></p>
+        </div>
       </div>
     </aside>
 
-    <!-- Main View Panel -->
-    <main class="flex-1 min-w-0" id="mainContent">
+    <!-- Main Content Area -->
+    <main class="flex-1 space-y-6">
 
-      <!-- DASHBOARD TAB -->
-      <div id="tab-dashboard" class="space-y-6">
+      <!-- ================= DASHBOARD TAB ================= -->
+      <section id="tab-dashboard" class="tab-view space-y-6">
         <!-- Banner -->
-        <div class="bg-gradient-to-r from-brand-600 via-brand-700 to-teal-700 rounded-3xl p-6 sm:p-8 text-white shadow-xl shadow-brand-600/15">
-          <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-            <div>
-              <span class="px-3 py-1 rounded-full bg-white/20 text-xs font-semibold">✨ Intelligent Hospital Command Center</span>
-              <h1 class="text-2xl sm:text-3xl font-extrabold mt-2">CareBridge Smart Healthcare System</h1>
-              <p class="text-xs sm:text-sm text-brand-100 mt-1">Connecting patients, doctors, diagnostics, pharmacy, and hospital staff through one intelligent dashboard.</p>
-            </div>
-            <div class="flex gap-2">
-              <button onclick="switchTab('appointments')" class="px-4 py-2 rounded-xl bg-white text-brand-700 font-bold text-xs shadow-md hover:bg-brand-50">
-                + Book Appointment
-              </button>
-              <button onclick="switchTab('emergency')" class="px-4 py-2 rounded-xl bg-rose-600 hover:bg-rose-700 text-white font-bold text-xs shadow-md">
-                🚨 ER Triage
-              </button>
+        <div class="bg-gradient-to-r from-sky-600 via-sky-700 to-teal-700 rounded-3xl p-6 md:p-8 text-white shadow-lg relative overflow-hidden">
+          <div class="relative z-10 max-w-xl">
+            <span class="px-2.5 py-1 bg-white/20 text-white rounded-full text-xs font-semibold">Hospital Command Center</span>
+            <h1 class="text-2xl md:text-3xl font-extrabold mt-3 tracking-tight">CareBridge Healthcare System</h1>
+            <p class="text-sky-100 text-sm mt-2">Pure HTML5, CSS3, and JavaScript frontend. Complete patient records, emergency admissions, appointment scheduler, and pharmacy management.</p>
+            <div class="mt-5 flex flex-wrap gap-3">
+              <button onclick="switchTab('emergency')" class="px-4 py-2 bg-rose-500 hover:bg-rose-600 text-white rounded-xl text-xs font-bold transition shadow-sm">Emergency Triage (4)</button>
+              <button onclick="switchTab('appointments')" class="px-4 py-2 bg-white text-sky-800 hover:bg-sky-50 rounded-xl text-xs font-bold transition shadow-sm">View Schedule</button>
             </div>
           </div>
         </div>
 
-        <!-- 8 Stats Cards -->
+        <!-- Metric Stat Cards -->
         <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
-          <div onclick="switchTab('patients')" class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md cursor-pointer transition-shadow">
-            <span class="text-xs font-semibold text-slate-500">Total Patients</span>
-            <div class="flex items-baseline justify-between mt-2">
-              <span class="text-2xl font-black text-slate-900">6</span>
-              <span class="text-[10px] font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full">+12.5%</span>
+          <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex items-center justify-between">
+            <div>
+              <p class="text-xs font-bold text-slate-400 uppercase">Total Patients</p>
+              <h3 class="text-2xl font-black text-slate-800 mt-1" id="stat-patients">6</h3>
+              <p class="text-[11px] text-emerald-600 font-medium mt-1">↑ Active in-care</p>
             </div>
+            <div class="w-12 h-12 rounded-xl bg-sky-50 text-sky-600 flex items-center justify-center text-xl font-bold">👥</div>
           </div>
-          <div onclick="switchTab('doctors')" class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md cursor-pointer transition-shadow">
-            <span class="text-xs font-semibold text-slate-500">Total Doctors</span>
-            <div class="flex items-baseline justify-between mt-2">
-              <span class="text-2xl font-black text-slate-900">5</span>
-              <span class="text-[10px] font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full">+4.2%</span>
+
+          <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex items-center justify-between">
+            <div>
+              <p class="text-xs font-bold text-slate-400 uppercase">Active Doctors</p>
+              <h3 class="text-2xl font-black text-slate-800 mt-1" id="stat-doctors">5</h3>
+              <p class="text-[11px] text-sky-600 font-medium mt-1">4 on duty now</p>
             </div>
+            <div class="w-12 h-12 rounded-xl bg-teal-50 text-teal-600 flex items-center justify-center text-xl font-bold">👨‍⚕️</div>
           </div>
-          <div onclick="switchTab('appointments')" class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md cursor-pointer transition-shadow">
-            <span class="text-xs font-semibold text-slate-500">Today's Appointments</span>
-            <div class="flex items-baseline justify-between mt-2">
-              <span class="text-2xl font-black text-slate-900">3</span>
-              <span class="text-[10px] font-bold text-sky-600 bg-sky-50 px-2 py-0.5 rounded-full">+18.0%</span>
+
+          <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex items-center justify-between">
+            <div>
+              <p class="text-xs font-bold text-slate-400 uppercase">Emergency Cases</p>
+              <h3 class="text-2xl font-black text-rose-600 mt-1" id="stat-emergency">4</h3>
+              <p class="text-[11px] text-rose-500 font-medium mt-1">1 Critical ICU</p>
             </div>
+            <div class="w-12 h-12 rounded-xl bg-rose-50 text-rose-600 flex items-center justify-center text-xl font-bold">🚨</div>
           </div>
-          <div onclick="switchTab('appointments')" class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md cursor-pointer transition-shadow">
-            <span class="text-xs font-semibold text-slate-500">Pending Appointments</span>
-            <div class="flex items-baseline justify-between mt-2">
-              <span class="text-2xl font-black text-amber-600">1</span>
-              <span class="text-[10px] font-bold text-amber-600 bg-amber-50 px-2 py-0.5 rounded-full">Review</span>
+
+          <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex items-center justify-between">
+            <div>
+              <p class="text-xs font-bold text-slate-400 uppercase">Available Beds</p>
+              <h3 class="text-2xl font-black text-slate-800 mt-1">108/150</h3>
+              <p class="text-[11px] text-emerald-600 font-medium mt-1">72% Available</p>
             </div>
-          </div>
-          <div onclick="switchTab('appointments')" class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md cursor-pointer transition-shadow">
-            <span class="text-xs font-semibold text-slate-500">Completed Appointments</span>
-            <div class="flex items-baseline justify-between mt-2">
-              <span class="text-2xl font-black text-emerald-600">2</span>
-              <span class="text-[10px] font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full">+22.4%</span>
-            </div>
-          </div>
-          <div onclick="switchTab('emergency')" class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md cursor-pointer transition-shadow">
-            <span class="text-xs font-semibold text-slate-500">Available Beds</span>
-            <div class="flex items-baseline justify-between mt-2">
-              <span class="text-2xl font-black text-purple-600">108/150</span>
-              <span class="text-[10px] font-bold text-purple-600 bg-purple-50 px-2 py-0.5 rounded-full">72%</span>
-            </div>
-          </div>
-          <div onclick="switchTab('emergency')" class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md cursor-pointer transition-shadow">
-            <span class="text-xs font-semibold text-slate-500">Emergency Cases</span>
-            <div class="flex items-baseline justify-between mt-2">
-              <span class="text-2xl font-black text-rose-600">4</span>
-              <span class="text-[10px] font-bold text-rose-600 bg-rose-50 px-2 py-0.5 rounded-full">Active ER</span>
-            </div>
-          </div>
-          <div onclick="switchTab('billing')" class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md cursor-pointer transition-shadow">
-            <span class="text-xs font-semibold text-slate-500">Total Revenue</span>
-            <div class="flex items-baseline justify-between mt-2">
-              <span class="text-2xl font-black text-slate-900">$34,800</span>
-              <span class="text-[10px] font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full">+15.8%</span>
-            </div>
+            <div class="w-12 h-12 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center text-xl font-bold">🛏️</div>
           </div>
         </div>
 
-        <!-- Two Column Sections: Live Schedule & Emergency -->
+        <!-- Recent Appointments & Emergency Triage Grid -->
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <!-- Schedule -->
-          <div class="bg-white rounded-2xl p-5 border border-slate-200 shadow-sm">
-            <div class="flex justify-between items-center pb-3 border-b border-slate-100">
-              <h3 class="text-sm font-bold text-slate-800">Today's Clinic Queue</h3>
-              <button onclick="switchTab('appointments')" class="text-xs text-brand-600 font-bold hover:underline">View All ➔</button>
+          <!-- Upcoming Appointments -->
+          <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
+            <div class="flex items-center justify-between mb-4">
+              <h2 class="text-base font-bold text-slate-800">Today's Appointments</h2>
+              <button onclick="switchTab('appointments')" class="text-xs text-sky-600 font-bold hover:underline">View All ➔</button>
             </div>
-            <div class="divide-y divide-slate-100 text-xs mt-2">
-              <div class="py-3 flex justify-between items-center">
-                <div>
-                  <p class="font-bold text-slate-900">Johnathan Hayes (PAT-1001)</p>
-                  <p class="text-slate-400">Dr. Sarah Jenkins • Cardiology • 09:30 AM</p>
-                </div>
-                <span class="px-2 py-0.5 rounded-full bg-sky-100 text-sky-700 font-bold text-[10px]">Scheduled</span>
-              </div>
-              <div class="py-3 flex justify-between items-center">
-                <div>
-                  <p class="font-bold text-slate-900">Emily Watson (PAT-1002)</p>
-                  <p class="text-slate-400">Dr. Priya Patel • General Medicine • 11:00 AM</p>
-                </div>
-                <span class="px-2 py-0.5 rounded-full bg-amber-100 text-amber-700 font-bold text-[10px]">Pending</span>
-              </div>
-              <div class="py-3 flex justify-between items-center">
-                <div>
-                  <p class="font-bold text-slate-900">Robert Downey (PAT-1003)</p>
-                  <p class="text-slate-400">Dr. Michael Barnes • Orthopedics • 02:00 PM</p>
-                </div>
-                <span class="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-700 font-bold text-[10px]">Completed</span>
-              </div>
+            <div class="space-y-3" id="dash-appointments-list">
+              <!-- Populated via JS -->
             </div>
           </div>
 
-          <!-- Emergency Alert Box -->
-          <div class="bg-white rounded-2xl p-5 border border-slate-200 shadow-sm">
-            <div class="flex justify-between items-center pb-3 border-b border-slate-100">
-              <div class="flex items-center gap-2">
-                <span class="w-2.5 h-2.5 rounded-full bg-rose-500 animate-ping"></span>
-                <h3 class="text-sm font-bold text-slate-800">Emergency & Triage Console</h3>
-              </div>
-              <button onclick="switchTab('emergency')" class="text-xs text-rose-600 font-bold hover:underline">ER Console ➔</button>
+          <!-- Emergency Triage -->
+          <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
+            <div class="flex items-center justify-between mb-4">
+              <h2 class="text-base font-bold text-slate-800">Emergency Department</h2>
+              <button onclick="switchTab('emergency')" class="text-xs text-rose-600 font-bold hover:underline">Live Triage ➔</button>
             </div>
-            <div class="divide-y divide-slate-100 text-xs mt-2">
-              <div class="py-3">
-                <div class="flex justify-between items-center">
-                  <span class="font-bold text-slate-900">Marcus Bennett (52 yrs)</span>
-                  <span class="px-2 py-0.5 rounded-full bg-rose-600 text-white font-extrabold text-[10px] animate-emergency">Critical</span>
-                </div>
-                <p class="text-slate-600 mt-1">Crushing retrosternal chest pain; STEMI protocol active.</p>
-                <div class="flex gap-2 mt-2 font-mono text-[10px] text-slate-500">
-                  <span class="bg-slate-100 px-2 py-0.5 rounded">BP: 88/54</span>
-                  <span class="bg-slate-100 px-2 py-0.5 rounded">HR: 118 bpm</span>
-                  <span class="bg-slate-100 px-2 py-0.5 rounded">SpO2: 91%</span>
-                  <span class="bg-rose-50 text-rose-700 px-2 py-0.5 rounded font-bold">ER-ICU-03</span>
-                </div>
-              </div>
-              <div class="py-3">
-                <div class="flex justify-between items-center">
-                  <span class="font-bold text-slate-900">Chloe Bennett (19 yrs)</span>
-                  <span class="px-2 py-0.5 rounded-full bg-amber-100 text-amber-800 font-extrabold text-[10px]">High</span>
-                </div>
-                <p class="text-slate-600 mt-1">Compound radius fracture; Trauma ICU; Splint placed.</p>
-              </div>
+            <div class="space-y-3" id="dash-emergency-list">
+              <!-- Populated via JS -->
             </div>
           </div>
         </div>
-      </div>
+      </section>
 
-      <!-- PATIENTS TAB -->
-      <div id="tab-patients" class="hidden space-y-6">
-        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex justify-between items-center">
+      <!-- ================= PATIENTS TAB ================= -->
+      <section id="tab-patients" class="tab-view hidden space-y-4">
+        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
-            <h2 class="text-lg font-bold text-slate-900">Patient Directory (6 Registered)</h2>
-            <p class="text-xs text-slate-500">Comprehensive patient demographics and electronic health records.</p>
+            <h2 class="text-xl font-bold text-slate-800">Patient Directory</h2>
+            <p class="text-xs text-slate-500">Comprehensive patient records, medical history, and contact profiles.</p>
           </div>
-          <button onclick="alert('Open live backend at http://localhost:5000 to save new patient to database.')" class="px-4 py-2 rounded-xl bg-brand-600 hover:bg-brand-700 text-white font-bold text-xs shadow-md">
-            + Add Patient
+          <button onclick="alert('Patient registration form ready in backend API.')" class="px-4 py-2 bg-sky-600 hover:bg-sky-700 text-white rounded-xl text-xs font-bold transition shadow-sm">
+            + Add New Patient
           </button>
         </div>
-        <div class="bg-white rounded-2xl border border-slate-200 overflow-hidden text-xs">
-          <table class="w-full text-left">
-            <thead class="bg-slate-50 text-slate-500 font-semibold border-b border-slate-200">
+        <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-x-auto">
+          <table class="w-full text-left text-xs border-collapse">
+            <thead class="bg-slate-50 text-slate-600 font-bold border-b border-slate-200">
               <tr>
-                <th class="p-3">Patient ID & Name</th>
-                <th class="p-3">Age / Gender</th>
+                <th class="p-3">Patient ID</th>
+                <th class="p-3">Full Name</th>
+                <th class="p-3">Age/Gender</th>
                 <th class="p-3">Blood Group</th>
                 <th class="p-3">Phone</th>
-                <th class="p-3">Known Allergies</th>
-                <th class="p-3 text-right">Actions</th>
+                <th class="p-3">Allergies</th>
+                <th class="p-3">Medical History</th>
               </tr>
             </thead>
-            <tbody class="divide-y divide-slate-100">
-              <tr class="hover:bg-slate-50">
-                <td class="p-3 font-bold text-slate-900">Johnathan Hayes <span class="font-mono text-brand-600 text-[10px] block">PAT-1001</span></td>
-                <td class="p-3">45 yrs • Male</td>
-                <td class="p-3"><span class="px-2 py-0.5 rounded-full bg-rose-50 text-rose-600 font-bold">O+</span></td>
-                <td class="p-3 font-mono">+1 (555) 678-2345</td>
-                <td class="p-3 text-slate-600">Penicillin, Shellfish</td>
-                <td class="p-3 text-right"><span class="text-brand-600 font-bold cursor-pointer">View EMR</span></td>
-              </tr>
-              <tr class="hover:bg-slate-50">
-                <td class="p-3 font-bold text-slate-900">Emily Watson <span class="font-mono text-brand-600 text-[10px] block">PAT-1002</span></td>
-                <td class="p-3">32 yrs • Female</td>
-                <td class="p-3"><span class="px-2 py-0.5 rounded-full bg-rose-50 text-rose-600 font-bold">A+</span></td>
-                <td class="p-3 font-mono">+1 (555) 345-6789</td>
-                <td class="p-3 text-slate-600">None reported</td>
-                <td class="p-3 text-right"><span class="text-brand-600 font-bold cursor-pointer">View EMR</span></td>
-              </tr>
-              <tr class="hover:bg-slate-50">
-                <td class="p-3 font-bold text-slate-900">Robert Downey <span class="font-mono text-brand-600 text-[10px] block">PAT-1003</span></td>
-                <td class="p-3">58 yrs • Male</td>
-                <td class="p-3"><span class="px-2 py-0.5 rounded-full bg-rose-50 text-rose-600 font-bold">B+</span></td>
-                <td class="p-3 font-mono">+1 (555) 456-7890</td>
-                <td class="p-3 text-slate-600">Aspirin, Ibuprofen</td>
-                <td class="p-3 text-right"><span class="text-brand-600 font-bold cursor-pointer">View EMR</span></td>
-              </tr>
-              <tr class="hover:bg-slate-50">
-                <td class="p-3 font-bold text-slate-900">Sophia Martinez <span class="font-mono text-brand-600 text-[10px] block">PAT-1004</span></td>
-                <td class="p-3">28 yrs • Female</td>
-                <td class="p-3"><span class="px-2 py-0.5 rounded-full bg-rose-50 text-rose-600 font-bold">AB-</span></td>
-                <td class="p-3 font-mono">+1 (555) 567-8901</td>
-                <td class="p-3 text-slate-600">Sulfa Drugs</td>
-                <td class="p-3 text-right"><span class="text-brand-600 font-bold cursor-pointer">View EMR</span></td>
-              </tr>
+            <tbody id="patients-table-body" class="divide-y divide-slate-100">
+              <!-- Populated via JS -->
             </tbody>
           </table>
         </div>
-      </div>
+      </section>
 
-      <!-- DOCTORS TAB -->
-      <div id="tab-doctors" class="hidden space-y-6">
-        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex justify-between items-center">
+      <!-- ================= DOCTORS TAB ================= -->
+      <section id="tab-doctors" class="tab-view hidden space-y-4">
+        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
-            <h2 class="text-lg font-bold text-slate-900">Hospital Medical Staff (5 Physicians)</h2>
-            <p class="text-xs text-slate-500">Board certified specialists, clinic schedules, and consultation fees.</p>
+            <h2 class="text-xl font-bold text-slate-800">Medical Staff & Physicians</h2>
+            <p class="text-xs text-slate-500">Specialist doctors, department schedules, and real-time duty status.</p>
           </div>
-          <button onclick="alert('Access http://localhost:5000 to manage staff profiles in live database.')" class="px-4 py-2 rounded-xl bg-teal-600 hover:bg-teal-700 text-white font-bold text-xs shadow-md">
-            + Add Doctor
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="doctors-cards-grid">
+          <!-- Populated via JS -->
+        </div>
+      </section>
+
+      <!-- ================= APPOINTMENTS TAB ================= -->
+      <section id="tab-appointments" class="tab-view hidden space-y-4">
+        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div>
+            <h2 class="text-xl font-bold text-slate-800">Appointment Management</h2>
+            <p class="text-xs text-slate-500">Scheduled outpatient visits, checkups, and consultations.</p>
+          </div>
+          <button onclick="alert('Appointment booking dialog ready.')" class="px-4 py-2 bg-teal-600 hover:bg-teal-700 text-white rounded-xl text-xs font-bold transition shadow-sm">
+            + Schedule Appointment
           </button>
         </div>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
-          <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
-            <div class="flex items-center gap-3">
-              <img src="https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=100" class="w-12 h-12 rounded-xl object-cover ring-2 ring-teal-500/20" alt="Dr. Jenkins">
-              <div>
-                <h4 class="font-bold text-slate-900 text-sm">Dr. Sarah Jenkins</h4>
-                <p class="text-brand-600 font-semibold">Cardiology</p>
-                <span class="text-[10px] text-slate-400">DOC-201 • Room 302</span>
-              </div>
-            </div>
-            <div class="mt-4 pt-3 border-t border-slate-100 space-y-1.5 text-slate-600">
-              <div class="flex justify-between"><span>Experience:</span><strong>14 Years</strong></div>
-              <div class="flex justify-between"><span>Fee:</span><strong class="text-emerald-600">$150.00</strong></div>
-              <div class="flex justify-between"><span>Status:</span><span class="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 font-bold text-[10px]">Available</span></div>
-            </div>
-          </div>
-          <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
-            <div class="flex items-center gap-3">
-              <img src="https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=100" class="w-12 h-12 rounded-xl object-cover ring-2 ring-teal-500/20" alt="Dr. Chen">
-              <div>
-                <h4 class="font-bold text-slate-900 text-sm">Dr. David Chen</h4>
-                <p class="text-brand-600 font-semibold">Neurology</p>
-                <span class="text-[10px] text-slate-400">DOC-202 • Room 415</span>
-              </div>
-            </div>
-            <div class="mt-4 pt-3 border-t border-slate-100 space-y-1.5 text-slate-600">
-              <div class="flex justify-between"><span>Experience:</span><strong>11 Years</strong></div>
-              <div class="flex justify-between"><span>Fee:</span><strong class="text-emerald-600">$180.00</strong></div>
-              <div class="flex justify-between"><span>Status:</span><span class="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 font-bold text-[10px]">Available</span></div>
-            </div>
-          </div>
-          <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
-            <div class="flex items-center gap-3">
-              <img src="https://images.unsplash.com/photo-1594824813576-081498b965f7?w=100" class="w-12 h-12 rounded-xl object-cover ring-2 ring-teal-500/20" alt="Dr. Rodriguez">
-              <div>
-                <h4 class="font-bold text-slate-900 text-sm">Dr. Elena Rodriguez</h4>
-                <p class="text-brand-600 font-semibold">Pediatrics</p>
-                <span class="text-[10px] text-slate-400">DOC-203 • Room 108</span>
-              </div>
-            </div>
-            <div class="mt-4 pt-3 border-t border-slate-100 space-y-1.5 text-slate-600">
-              <div class="flex justify-between"><span>Experience:</span><strong>9 Years</strong></div>
-              <div class="flex justify-between"><span>Fee:</span><strong class="text-emerald-600">$120.00</strong></div>
-              <div class="flex justify-between"><span>Status:</span><span class="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 font-bold text-[10px]">Available</span></div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- PHARMACY TAB -->
-      <div id="tab-pharmacy" class="hidden space-y-6">
-        <div class="p-4 bg-amber-50 border border-amber-200 rounded-2xl flex items-center justify-between text-xs">
-          <span class="font-bold text-amber-900">⚠️ Low Stock Alert: Celecoxib (15 units) and Amlodipine (48 units) require replenishment.</span>
-          <span class="bg-amber-200 text-amber-900 px-2 py-1 rounded font-bold">2 Critical</span>
-        </div>
-        <div class="bg-white rounded-2xl border border-slate-200 overflow-hidden text-xs">
-          <table class="w-full text-left">
-            <thead class="bg-slate-50 text-slate-500 font-semibold border-b">
+        <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-x-auto">
+          <table class="w-full text-left text-xs border-collapse">
+            <thead class="bg-slate-50 text-slate-600 font-bold border-b border-slate-200">
               <tr>
+                <th class="p-3">Appointment ID</th>
+                <th class="p-3">Patient</th>
+                <th class="p-3">Doctor & Dept</th>
+                <th class="p-3">Date & Time</th>
+                <th class="p-3">Type</th>
+                <th class="p-3">Status</th>
+                <th class="p-3">Action</th>
+              </tr>
+            </thead>
+            <tbody id="appointments-table-body" class="divide-y divide-slate-100">
+              <!-- Populated via JS -->
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- ================= EMERGENCY TAB ================= -->
+      <section id="tab-emergency" class="tab-view hidden space-y-4">
+        <div class="bg-rose-50 border border-rose-200 p-5 rounded-2xl shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="w-3 h-3 rounded-full bg-rose-600 animate-ping"></span>
+              <h2 class="text-xl font-extrabold text-rose-900">Emergency & Trauma Triage</h2>
+            </div>
+            <p class="text-xs text-rose-700 mt-1">Real-time vital monitoring, critical triage classification, and rapid bed assignment.</p>
+          </div>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="emergency-cards-grid">
+          <!-- Populated via JS -->
+        </div>
+      </section>
+
+      <!-- ================= PHARMACY TAB ================= -->
+      <section id="tab-pharmacy" class="tab-view hidden space-y-4">
+        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div>
+            <h2 class="text-xl font-bold text-slate-800">Pharmacy & Drug Inventory</h2>
+            <p class="text-xs text-slate-500">Stock levels, pricing, expiry dates, and categories.</p>
+          </div>
+        </div>
+        <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-x-auto">
+          <table class="w-full text-left text-xs border-collapse">
+            <thead class="bg-slate-50 text-slate-600 font-bold border-b border-slate-200">
+              <tr>
+                <th class="p-3">Item Code</th>
                 <th class="p-3">Medicine Name</th>
                 <th class="p-3">Category</th>
-                <th class="p-3">Stock Count</th>
-                <th class="p-3">Price</th>
+                <th class="p-3">Stock Units</th>
+                <th class="p-3">Unit Price</th>
                 <th class="p-3">Expiry Date</th>
-                <th class="p-3 text-right">Status</th>
+                <th class="p-3">Status</th>
               </tr>
             </thead>
-            <tbody class="divide-y divide-slate-100">
-              <tr>
-                <td class="p-3 font-bold text-slate-900">Amoxicillin & Clavulanate (Augmentin)</td>
-                <td class="p-3">Antibiotics</td>
-                <td class="p-3 font-mono font-bold">420 units</td>
-                <td class="p-3 font-mono">$14.50</td>
-                <td class="p-3 font-mono">2027-08-30</td>
-                <td class="p-3 text-right"><span class="px-2 py-0.5 bg-emerald-100 text-emerald-800 rounded font-bold text-[10px]">In Stock</span></td>
-              </tr>
-              <tr>
-                <td class="p-3 font-bold text-slate-900">Amlodipine Besylate (Norvasc)</td>
-                <td class="p-3">Cardiovascular</td>
-                <td class="p-3 font-mono font-bold text-amber-600">48 units</td>
-                <td class="p-3 font-mono">$8.20</td>
-                <td class="p-3 font-mono">2027-04-15</td>
-                <td class="p-3 text-right"><span class="px-2 py-0.5 bg-amber-100 text-amber-800 rounded font-bold text-[10px]">Low Stock</span></td>
-              </tr>
-              <tr>
-                <td class="p-3 font-bold text-slate-900">Celecoxib Capsules (Celebrex)</td>
-                <td class="p-3">Analgesics</td>
-                <td class="p-3 font-mono font-bold text-rose-600">15 units</td>
-                <td class="p-3 font-mono">$22.50</td>
-                <td class="p-3 font-mono">2027-03-25</td>
-                <td class="p-3 text-right"><span class="px-2 py-0.5 bg-rose-100 text-rose-800 rounded font-bold text-[10px]">Critical</span></td>
-              </tr>
+            <tbody id="pharmacy-table-body" class="divide-y divide-slate-100">
+              <!-- Populated via JS -->
             </tbody>
           </table>
         </div>
-      </div>
+      </section>
 
-      <!-- BILLING TAB -->
-      <div id="tab-billing" class="hidden space-y-6">
-        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex justify-between items-center">
-          <div>
-            <h2 class="text-lg font-bold text-slate-900">Patient Billing & Invoices</h2>
-            <p class="text-xs text-slate-500">Itemized bills, insurance claims, and tax receipts.</p>
-          </div>
-          <button onclick="window.print()" class="px-4 py-2 rounded-xl bg-slate-900 text-white font-bold text-xs shadow-md">
-            🖨️ Print Tax Invoice
-          </button>
+      <!-- ================= PRESCRIPTIONS TAB ================= -->
+      <section id="tab-prescriptions" class="tab-view hidden space-y-4">
+        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
+          <h2 class="text-xl font-bold text-slate-800">Digital Prescriptions</h2>
+          <p class="text-xs text-slate-500">Official medical prescriptions issued by hospital doctors.</p>
         </div>
-        <div class="bg-white rounded-2xl border border-slate-200 overflow-hidden text-xs">
-          <table class="w-full text-left">
-            <thead class="bg-slate-50 text-slate-500 font-semibold border-b">
+        <div class="space-y-3" id="prescriptions-list">
+          <!-- Populated via JS -->
+        </div>
+      </section>
+
+      <!-- ================= BILLING TAB ================= -->
+      <section id="tab-billing" class="tab-view hidden space-y-4">
+        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div>
+            <h2 class="text-xl font-bold text-slate-800">Billing & Invoices</h2>
+            <p class="text-xs text-slate-500">Patient invoices, co-pay insurance claims, and transaction status.</p>
+          </div>
+        </div>
+        <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-x-auto">
+          <table class="w-full text-left text-xs border-collapse">
+            <thead class="bg-slate-50 text-slate-600 font-bold border-b border-slate-200">
               <tr>
-                <th class="p-3">Invoice ID</th>
+                <th class="p-3">Invoice No</th>
                 <th class="p-3">Patient</th>
+                <th class="p-3">Issue Date</th>
+                <th class="p-3">Due Date</th>
                 <th class="p-3">Total Amount</th>
                 <th class="p-3">Paid Amount</th>
                 <th class="p-3">Status</th>
-                <th class="p-3 text-right">Receipt</th>
+                <th class="p-3">Payment Method</th>
               </tr>
             </thead>
-            <tbody class="divide-y divide-slate-100">
-              <tr>
-                <td class="p-3 font-mono font-bold text-emerald-700">INV-9001</td>
-                <td class="p-3 font-bold">Johnathan Hayes</td>
-                <td class="p-3 font-mono font-bold">$279.51</td>
-                <td class="p-3 font-mono text-emerald-600 font-bold">$279.51</td>
-                <td class="p-3"><span class="px-2 py-0.5 bg-emerald-100 text-emerald-800 rounded font-bold text-[10px]">PAID</span></td>
-                <td class="p-3 text-right"><button onclick="window.print()" class="text-brand-600 font-bold">Print Receipt</button></td>
-              </tr>
-              <tr>
-                <td class="p-3 font-mono font-bold text-emerald-700">INV-9002</td>
-                <td class="p-3 font-bold">Robert Downey</td>
-                <td class="p-3 font-mono font-bold">$280.88</td>
-                <td class="p-3 font-mono text-blue-600 font-bold">$150.00</td>
-                <td class="p-3"><span class="px-2 py-0.5 bg-blue-100 text-blue-800 rounded font-bold text-[10px]">PARTIALLY PAID</span></td>
-                <td class="p-3 text-right"><button onclick="window.print()" class="text-brand-600 font-bold">Print Receipt</button></td>
-              </tr>
+            <tbody id="billing-table-body" class="divide-y divide-slate-100">
+              <!-- Populated via JS -->
             </tbody>
           </table>
         </div>
-      </div>
+      </section>
 
     </main>
   </div>
 
-  <script>
-    function switchTab(tabId) {
-      // Hide all tabs
-      const tabs = ['dashboard', 'patients', 'doctors', 'pharmacy', 'billing'];
-      tabs.forEach(t => {
-        const el = document.getElementById('tab-' + t);
-        if (el) el.classList.add('hidden');
-      });
+  <!-- Footer -->
+  <footer class="bg-white border-t border-slate-200 py-4 text-center text-xs text-slate-500 mt-auto">
+    <div class="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-2">
+      <p>&copy; 2026 CareBridge Smart Healthcare Management System. All rights reserved.</p>
+      <div class="flex gap-4">
+        <a href="index.html" class="hover:text-sky-600 font-medium">Home Portal</a>
+        <a href="../dashboard.html" class="hover:text-sky-600 font-medium">Root Dashboard</a>
+        <a href="http://localhost:5000" class="hover:text-sky-600 font-medium">Live Node API</a>
+      </div>
+    </div>
+  </footer>
 
-      // Show requested tab or default to dashboard
-      const target = document.getElementById('tab-' + tabId);
-      if (target) {
-        target.classList.remove('hidden');
-      } else {
-        const d = document.getElementById('tab-dashboard');
-        if (d) d.classList.remove('hidden');
+  <!-- Scripts -->
+  <script src="js/dashboard.js"></script>
+  <script>
+    // Populate Views on Load
+    document.addEventListener('DOMContentLoaded', () => {
+      renderDashboard();
+      renderPatients();
+      renderDoctors();
+      renderAppointments();
+      renderEmergency();
+      renderPharmacy();
+      renderPrescriptions();
+      renderBilling();
+    });
+
+    function renderDashboard() {
+      // Recent appointments
+      const apptList = document.getElementById('dash-appointments-list');
+      if (apptList) {
+        apptList.innerHTML = CareBridgeStore.appointments.slice(0, 4).map(a => `
+          <div class="p-3 rounded-xl bg-slate-50 border border-slate-100 flex items-center justify-between">
+            <div>
+              <p class="font-bold text-slate-800 text-xs">${a.patient}</p>
+              <p class="text-[11px] text-slate-500">${a.doctor} &bull; ${a.dept}</p>
+            </div>
+            <div class="text-right">
+              <span class="text-[10px] font-bold px-2 py-0.5 rounded-full ${a.status === 'Completed' ? 'bg-emerald-100 text-emerald-700' : a.status === 'Pending' ? 'bg-amber-100 text-amber-700' : 'bg-sky-100 text-sky-700'}">${a.status}</span>
+              <p class="text-[10px] text-slate-400 mt-0.5">${a.time}</p>
+            </div>
+          </div>
+        `).join('');
       }
 
-      // Update sidebar styles
-      document.querySelectorAll('.nav-btn').forEach(btn => {
-        if (btn.getAttribute('data-tab') === tabId) {
-          btn.className = 'nav-btn w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl bg-brand-500 text-white font-bold';
-        } else {
-          btn.className = 'nav-btn w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-slate-600 hover:bg-slate-50';
-        }
-      });
+      // Emergency Triage
+      const emgList = document.getElementById('dash-emergency-list');
+      if (emgList) {
+        emgList.innerHTML = CareBridgeStore.emergency.slice(0, 3).map(e => `
+          <div class="p-3 rounded-xl ${e.priority === 'Critical' ? 'bg-rose-50 border border-rose-200' : 'bg-slate-50 border border-slate-100'} flex items-center justify-between">
+            <div>
+              <div class="flex items-center gap-1.5">
+                <span class="font-bold text-slate-800 text-xs">${e.patient}</span>
+                <span class="text-[10px] font-bold px-1.5 py-0.2 rounded ${e.priority === 'Critical' ? 'bg-rose-600 text-white' : 'bg-amber-500 text-white'}">${e.priority}</span>
+              </div>
+              <p class="text-[11px] text-slate-600 mt-0.5">${e.complaint}</p>
+            </div>
+            <div class="text-right">
+              <span class="text-[10px] font-semibold text-slate-600">${e.bed}</span>
+              <p class="text-[10px] font-mono text-slate-500">BP: ${e.bp}</p>
+            </div>
+          </div>
+        `).join('');
+      }
     }
 
-    function filterGlobal(val) {
-      if (!val) return;
-      const v = val.toLowerCase();
-      if (v.includes('pat')) switchTab('patients');
-      else if (v.includes('doc')) switchTab('doctors');
-      else if (v.includes('phar') || v.includes('med')) switchTab('pharmacy');
-      else if (v.includes('bill') || v.includes('inv')) switchTab('billing');
-      else switchTab('dashboard');
+    function renderPatients() {
+      const tbody = document.getElementById('patients-table-body');
+      if (tbody) {
+        tbody.innerHTML = CareBridgeStore.patients.map(p => `
+          <tr class="hover:bg-slate-50 transition">
+            <td class="p-3 font-mono font-bold text-sky-700">${p.id}</td>
+            <td class="p-3 font-bold text-slate-800">${p.name}</td>
+            <td class="p-3">${p.age} yrs / ${p.gender}</td>
+            <td class="p-3"><span class="px-2 py-0.5 rounded font-bold bg-rose-50 text-rose-700 border border-rose-200">${p.blood}</span></td>
+            <td class="p-3">${p.phone}</td>
+            <td class="p-3 text-rose-600 font-medium">${p.allergies}</td>
+            <td class="p-3 text-slate-600">${p.history}</td>
+          </tr>
+        `).join('');
+      }
+    }
+
+    function renderDoctors() {
+      const grid = document.getElementById('doctors-cards-grid');
+      if (grid) {
+        grid.innerHTML = CareBridgeStore.doctors.map(d => `
+          <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm hover:border-sky-300 transition space-y-3">
+            <div class="flex items-start justify-between">
+              <div class="w-12 h-12 rounded-xl bg-sky-50 text-sky-700 font-bold flex items-center justify-center text-base border border-sky-100">
+                ${d.name.split(' ').map(n=>n[0]).join('')}
+              </div>
+              <span class="text-[10px] font-bold px-2 py-0.5 rounded-full ${d.status === 'Available' ? 'bg-emerald-100 text-emerald-700' : 'bg-slate-100 text-slate-600'}">
+                ${d.status}
+              </span>
+            </div>
+            <div>
+              <h3 class="font-bold text-slate-800 text-sm">${d.name}</h3>
+              <p class="text-xs text-sky-600 font-semibold">${d.spec}</p>
+              <p class="text-[11px] text-slate-500">${d.dept} &bull; ${d.room}</p>
+            </div>
+            <div class="flex items-center justify-between pt-2 border-t border-slate-100 text-xs">
+              <span class="text-slate-500">Exp: <strong>${d.exp} yrs</strong></span>
+              <span class="text-slate-700 font-bold">$${d.fee} / consult</span>
+            </div>
+            <button onclick="toggleDoctorStatus('${d.id}')" class="w-full py-1.5 text-xs font-semibold rounded-lg border border-slate-200 hover:bg-slate-50 transition text-slate-600">
+              Toggle Availability
+            </button>
+          </div>
+        `).join('');
+      }
+    }
+
+    function renderAppointments() {
+      const tbody = document.getElementById('appointments-table-body');
+      if (tbody) {
+        tbody.innerHTML = CareBridgeStore.appointments.map(a => `
+          <tr class="hover:bg-slate-50 transition">
+            <td class="p-3 font-mono font-bold text-sky-700">${a.id}</td>
+            <td class="p-3 font-bold text-slate-800">${a.patient}</td>
+            <td class="p-3">${a.doctor}<br><span class="text-slate-400 text-[10px]">${a.dept}</span></td>
+            <td class="p-3">${a.date}<br><span class="text-slate-400 text-[10px]">${a.time}</span></td>
+            <td class="p-3"><span class="px-2 py-0.5 bg-slate-100 rounded text-slate-700 font-medium">${a.type}</span></td>
+            <td class="p-3">
+              <span class="px-2 py-0.5 rounded-full font-bold text-[10px] ${a.status === 'Completed' ? 'bg-emerald-100 text-emerald-700' : a.status === 'Pending' ? 'bg-amber-100 text-amber-700' : a.status === 'Cancelled' ? 'bg-rose-100 text-rose-700' : 'bg-sky-100 text-sky-700'}">
+                ${a.status}
+              </span>
+            </td>
+            <td class="p-3">
+              <button onclick="alert('Viewing appointment details for ${a.id}')" class="px-2.5 py-1 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded font-semibold text-[10px]">Details</button>
+            </td>
+          </tr>
+        `).join('');
+      }
+    }
+
+    function renderEmergency() {
+      const grid = document.getElementById('emergency-cards-grid');
+      if (grid) {
+        grid.innerHTML = CareBridgeStore.emergency.map(e => `
+          <div class="bg-white p-5 rounded-2xl border ${e.priority === 'Critical' ? 'border-rose-300 shadow-rose-100' : 'border-slate-200'} shadow-sm space-y-3">
+            <div class="flex items-start justify-between">
+              <div>
+                <span class="text-[10px] font-extrabold px-2 py-0.5 rounded-full ${e.priority === 'Critical' ? 'bg-rose-600 text-white' : e.priority === 'High' ? 'bg-amber-500 text-white' : 'bg-sky-500 text-white'}">
+                  ${e.priority} PRIORITY
+                </span>
+                <h3 class="font-black text-slate-800 text-base mt-2">${e.patient}</h3>
+                <p class="text-xs text-slate-500">${e.age} years &bull; Bed: <strong>${e.bed}</strong></p>
+              </div>
+              <span class="text-xs font-mono font-bold text-slate-400">${e.id}</span>
+            </div>
+            <div class="p-3 rounded-xl bg-slate-50 border border-slate-100 text-xs">
+              <p class="font-semibold text-slate-700">Complaint:</p>
+              <p class="text-rose-700 font-bold mt-0.5">${e.complaint}</p>
+            </div>
+            <div class="grid grid-cols-4 gap-2 text-center text-[10px] font-mono pt-1">
+              <div class="bg-slate-50 p-1.5 rounded border border-slate-100"><p class="text-slate-400">BP</p><p class="font-bold text-slate-800">${e.bp}</p></div>
+              <div class="bg-slate-50 p-1.5 rounded border border-slate-100"><p class="text-slate-400">HR</p><p class="font-bold text-slate-800">${e.hr}</p></div>
+              <div class="bg-slate-50 p-1.5 rounded border border-slate-100"><p class="text-slate-400">SpO2</p><p class="font-bold text-slate-800">${e.spo2}</p></div>
+              <div class="bg-slate-50 p-1.5 rounded border border-slate-100"><p class="text-slate-400">Temp</p><p class="font-bold text-slate-800">${e.temp}</p></div>
+            </div>
+            <div class="flex items-center justify-between pt-2 border-t border-slate-100 text-xs">
+              <span class="text-slate-500">Attending: <strong>${e.doctor}</strong></span>
+              <span class="px-2 py-0.5 rounded bg-emerald-50 text-emerald-700 font-bold">${e.status}</span>
+            </div>
+          </div>
+        `).join('');
+      }
+    }
+
+    function renderPharmacy() {
+      const tbody = document.getElementById('pharmacy-table-body');
+      if (tbody) {
+        tbody.innerHTML = CareBridgeStore.pharmacy.map(m => `
+          <tr class="hover:bg-slate-50 transition">
+            <td class="p-3 font-mono font-bold text-teal-700">${m.id}</td>
+            <td class="p-3 font-bold text-slate-800">${m.name}</td>
+            <td class="p-3"><span class="px-2 py-0.5 bg-slate-100 rounded text-slate-600 font-medium">${m.cat}</span></td>
+            <td class="p-3 font-bold">${m.stock}</td>
+            <td class="p-3 text-emerald-700 font-bold">$${m.price.toFixed(2)}</td>
+            <td class="p-3 text-slate-500">${m.exp}</td>
+            <td class="p-3">
+              <span class="px-2 py-0.5 rounded-full font-bold text-[10px] ${m.status === 'In Stock' ? 'bg-emerald-100 text-emerald-700' : 'bg-amber-100 text-amber-700'}">
+                ${m.status}
+              </span>
+            </td>
+          </tr>
+        `).join('');
+      }
+    }
+
+    function renderPrescriptions() {
+      const list = document.getElementById('prescriptions-list');
+      if (list) {
+        list.innerHTML = CareBridgeStore.prescriptions.map(rx => `
+          <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-2">
+            <div class="flex items-center justify-between">
+              <div>
+                <span class="text-xs font-mono font-bold text-sky-700">${rx.id}</span>
+                <h3 class="font-bold text-slate-800 text-sm mt-0.5">${rx.patient}</h3>
+              </div>
+              <div class="text-right">
+                <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-700">${rx.status}</span>
+                <p class="text-[10px] text-slate-400 mt-1">${rx.date}</p>
+              </div>
+            </div>
+            <div class="p-3 bg-slate-50 rounded-xl border border-slate-100 text-xs">
+              <p class="font-semibold text-slate-700">Prescribed Regimen:</p>
+              <p class="font-mono text-sky-900 font-bold mt-1">${rx.meds}</p>
+              <p class="text-slate-500 mt-1 text-[11px]">Instructions: ${rx.notes}</p>
+            </div>
+            <div class="flex justify-between items-center text-xs text-slate-500 pt-1">
+              <span>Doctor: <strong>${rx.doctor}</strong></span>
+              <button onclick="printDocument('Prescription ${rx.id}', '<h2>CareBridge Prescription</h2><p><b>Patient:</b> ${rx.patient}</p><p><b>Doctor:</b> ${rx.doctor}</p><p><b>Meds:</b> ${rx.meds}</p><p><b>Instructions:</b> ${rx.notes}</p>')" class="text-sky-600 font-bold hover:underline">Print Rx 🖨️</button>
+            </div>
+          </div>
+        `).join('');
+      }
+    }
+
+    function renderBilling() {
+      const tbody = document.getElementById('billing-table-body');
+      if (tbody) {
+        tbody.innerHTML = CareBridgeStore.bills.map(b => `
+          <tr class="hover:bg-slate-50 transition">
+            <td class="p-3 font-mono font-bold text-sky-700">${b.id}</td>
+            <td class="p-3 font-bold text-slate-800">${b.patient}</td>
+            <td class="p-3 text-slate-500">${b.date}</td>
+            <td class="p-3 text-slate-500">${b.due}</td>
+            <td class="p-3 font-bold text-slate-900">$${b.total.toFixed(2)}</td>
+            <td class="p-3 font-bold text-emerald-600">$${b.paid.toFixed(2)}</td>
+            <td class="p-3">
+              <span class="px-2 py-0.5 rounded-full font-bold text-[10px] ${b.status === 'Paid' ? 'bg-emerald-100 text-emerald-700' : b.status === 'Partially Paid' ? 'bg-amber-100 text-amber-700' : 'bg-rose-100 text-rose-700'}">
+                ${b.status}
+              </span>
+            </td>
+            <td class="p-3 text-slate-600 font-medium">${b.method}</td>
+          </tr>
+        `).join('');
+      }
     }
   </script>
 </body>
 </html>
-
